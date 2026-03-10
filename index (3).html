@@ -1,0 +1,1300 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>UltraHomes — Intelligent Home Automation</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #090c10;
+    --surface: #0e1117;
+    --card: #131820;
+    --border: #1e2a38;
+    --accent: #00e5ff;
+    --accent2: #ff6b35;
+    --accent3: #7fff6e;
+    --text: #e8edf3;
+    --muted: #5a6a7a;
+    --glow: 0 0 30px rgba(0,229,255,0.3);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    overflow-x: hidden;
+  }
+
+  /* GRID BACKGROUND */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(0,229,255,0.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(0,229,255,0.03) 1px, transparent 1px);
+    background-size: 50px 50px;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  section, nav, footer { position: relative; z-index: 1; }
+
+  /* NAV */
+  nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.5rem 5%;
+    border-bottom: 1px solid var(--border);
+    backdrop-filter: blur(20px);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: rgba(9,12,16,0.85);
+  }
+
+  .logo {
+    font-family: 'Syne', sans-serif;
+    font-weight: 800;
+    font-size: 1.4rem;
+    letter-spacing: -0.5px;
+  }
+
+  .logo span {
+    color: var(--accent);
+    text-shadow: 0 0 20px rgba(0,229,255,0.5);
+  }
+
+  .nav-links {
+    display: flex;
+    gap: 2.5rem;
+    list-style: none;
+    font-size: 0.9rem;
+    font-weight: 500;
+  }
+
+  .nav-links a {
+    color: var(--muted);
+    text-decoration: none;
+    transition: color 0.2s;
+    letter-spacing: 0.02em;
+  }
+
+  .nav-links a:hover { color: var(--accent); }
+
+  .nav-cta {
+    background: var(--accent);
+    color: #000;
+    padding: 0.6rem 1.4rem;
+    border-radius: 4px;
+    font-weight: 700;
+    font-size: 0.85rem;
+    text-decoration: none;
+    letter-spacing: 0.05em;
+    transition: all 0.2s;
+  }
+
+  .nav-cta:hover {
+    box-shadow: var(--glow);
+    transform: translateY(-1px);
+  }
+
+  /* HERO */
+  .hero {
+    min-height: 95vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 6rem 5% 4rem;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero-blob {
+    position: absolute;
+    width: 700px;
+    height: 700px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(0,229,255,0.06) 0%, transparent 70%);
+    top: -200px;
+    right: -200px;
+    pointer-events: none;
+  }
+
+  .hero-blob2 {
+    position: absolute;
+    width: 500px;
+    height: 500px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(255,107,53,0.05) 0%, transparent 70%);
+    bottom: -100px;
+    left: -100px;
+    pointer-events: none;
+  }
+
+  .hero-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: rgba(0,229,255,0.08);
+    border: 1px solid rgba(0,229,255,0.2);
+    color: var(--accent);
+    padding: 0.4rem 1rem;
+    border-radius: 50px;
+    font-size: 0.78rem;
+    font-family: 'Space Mono', monospace;
+    letter-spacing: 0.1em;
+    margin-bottom: 2rem;
+    width: fit-content;
+    animation: fadeUp 0.6s ease both;
+  }
+
+  .badge-dot {
+    width: 6px;
+    height: 6px;
+    background: var(--accent3);
+    border-radius: 50%;
+    animation: pulse 2s infinite;
+  }
+
+  @keyframes pulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.4; transform: scale(0.8); }
+  }
+
+  .hero h1 {
+    font-family: 'Syne', sans-serif;
+    font-size: clamp(3rem, 8vw, 6.5rem);
+    font-weight: 800;
+    line-height: 1.0;
+    letter-spacing: -0.03em;
+    max-width: 900px;
+    animation: fadeUp 0.6s 0.1s ease both;
+  }
+
+  .hero h1 .line2 {
+    color: transparent;
+    -webkit-text-stroke: 1px rgba(0,229,255,0.4);
+  }
+
+  .hero h1 .accent { color: var(--accent); }
+
+  .hero-sub {
+    font-size: 1.15rem;
+    color: var(--muted);
+    max-width: 520px;
+    line-height: 1.7;
+    margin: 2rem 0 3rem;
+    font-weight: 400;
+    animation: fadeUp 0.6s 0.2s ease both;
+  }
+
+  .hero-actions {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+    flex-wrap: wrap;
+    animation: fadeUp 0.6s 0.3s ease both;
+  }
+
+  .btn-primary {
+    background: var(--accent);
+    color: #000;
+    padding: 0.9rem 2rem;
+    border-radius: 4px;
+    font-weight: 700;
+    font-size: 0.9rem;
+    text-decoration: none;
+    letter-spacing: 0.05em;
+    transition: all 0.2s;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .btn-primary:hover {
+    box-shadow: var(--glow);
+    transform: translateY(-2px);
+  }
+
+  .btn-secondary {
+    color: var(--text);
+    padding: 0.9rem 2rem;
+    border-radius: 4px;
+    font-weight: 500;
+    font-size: 0.9rem;
+    text-decoration: none;
+    border: 1px solid var(--border);
+    transition: all 0.2s;
+  }
+
+  .btn-secondary:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+  }
+
+  /* STATS BAR */
+  .stats-bar {
+    display: flex;
+    gap: 0;
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+    margin: 0 5%;
+    overflow: hidden;
+  }
+
+  .stat {
+    flex: 1;
+    padding: 2rem 2.5rem;
+    border-right: 1px solid var(--border);
+    position: relative;
+    overflow: hidden;
+    transition: background 0.3s;
+  }
+
+  .stat:last-child { border-right: none; }
+  .stat:hover { background: rgba(0,229,255,0.03); }
+
+  .stat-num {
+    font-family: 'Space Mono', monospace;
+    font-size: 2.2rem;
+    font-weight: 700;
+    color: var(--accent);
+    display: block;
+    line-height: 1;
+    margin-bottom: 0.4rem;
+  }
+
+  .stat-label {
+    font-size: 0.82rem;
+    color: var(--muted);
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+  }
+
+  /* ROOMS SECTION */
+  .section {
+    padding: 7rem 5%;
+  }
+
+  .section-tag {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.72rem;
+    color: var(--accent);
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.7rem;
+  }
+
+  .section-tag::before {
+    content: '';
+    width: 20px;
+    height: 1px;
+    background: var(--accent);
+  }
+
+  .section-title {
+    font-family: 'Syne', sans-serif;
+    font-size: clamp(1.8rem, 4vw, 2.8rem);
+    font-weight: 800;
+    letter-spacing: -0.03em;
+    margin-bottom: 1rem;
+    line-height: 1.1;
+  }
+
+  .section-desc {
+    color: var(--muted);
+    font-size: 1rem;
+    max-width: 480px;
+    line-height: 1.7;
+    margin-bottom: 4rem;
+  }
+
+  /* ROOM CARDS */
+  .rooms-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1.5px;
+    background: var(--border);
+    border: 1px solid var(--border);
+  }
+
+  .room-card {
+    background: var(--card);
+    padding: 2.5rem;
+    position: relative;
+    overflow: hidden;
+    transition: all 0.3s;
+    cursor: pointer;
+  }
+
+  .room-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: var(--room-color, var(--accent));
+    transform: scaleX(0);
+    transition: transform 0.3s;
+    transform-origin: left;
+  }
+
+  .room-card:hover::before { transform: scaleX(1); }
+  .room-card:hover { background: #161e28; }
+
+  .room-icon {
+    font-size: 2rem;
+    margin-bottom: 1.5rem;
+    display: block;
+  }
+
+  .room-name {
+    font-family: 'Syne', sans-serif;
+    font-size: 1.2rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+    letter-spacing: -0.02em;
+  }
+
+  .room-sensor {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.7rem;
+    color: var(--room-color, var(--accent));
+    letter-spacing: 0.1em;
+    margin-bottom: 1rem;
+    text-transform: uppercase;
+  }
+
+  .room-desc {
+    font-size: 0.88rem;
+    color: var(--muted);
+    line-height: 1.6;
+    margin-bottom: 1.5rem;
+  }
+
+  .room-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.3rem 0.8rem;
+    border-radius: 50px;
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    background: rgba(0,0,0,0.3);
+    border: 1px solid var(--border);
+  }
+
+  .chip-dot {
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background: var(--room-color, var(--accent));
+  }
+
+  /* FEATURES */
+  .features-layout {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 5rem;
+    align-items: center;
+  }
+
+  .feature-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+
+  .feature-item {
+    padding: 1.8rem 0;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    gap: 1.5rem;
+    align-items: flex-start;
+    transition: all 0.2s;
+    cursor: default;
+  }
+
+  .feature-item:hover .feature-icon { 
+    background: rgba(0,229,255,0.15);
+    color: var(--accent);
+  }
+
+  .feature-icon {
+    width: 44px;
+    height: 44px;
+    border-radius: 8px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2rem;
+    flex-shrink: 0;
+    transition: all 0.2s;
+  }
+
+  .feature-content h4 {
+    font-family: 'Syne', sans-serif;
+    font-weight: 700;
+    font-size: 1rem;
+    margin-bottom: 0.3rem;
+    letter-spacing: -0.01em;
+  }
+
+  .feature-content p {
+    font-size: 0.88rem;
+    color: var(--muted);
+    line-height: 1.6;
+  }
+
+  /* TECH VISUAL */
+  .tech-visual {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .hub-diagram {
+    position: relative;
+    width: 340px;
+    height: 340px;
+  }
+
+  .hub-center {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 100px;
+    height: 100px;
+    background: var(--card);
+    border: 2px solid var(--accent);
+    border-radius: 50%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 0 40px rgba(0,229,255,0.2);
+    z-index: 2;
+  }
+
+  .hub-center-label {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.6rem;
+    color: var(--accent);
+    letter-spacing: 0.1em;
+    text-align: center;
+    line-height: 1.4;
+  }
+
+  .orbit {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 260px;
+    height: 260px;
+    border: 1px dashed rgba(0,229,255,0.15);
+    border-radius: 50%;
+    animation: spin 20s linear infinite;
+  }
+
+  @keyframes spin {
+    from { transform: translate(-50%, -50%) rotate(0deg); }
+    to { transform: translate(-50%, -50%) rotate(360deg); }
+  }
+
+  .node {
+    position: absolute;
+    width: 60px;
+    height: 60px;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2rem;
+    transition: all 0.3s;
+  }
+
+  .node:hover {
+    border-color: var(--accent);
+    box-shadow: 0 0 20px rgba(0,229,255,0.2);
+  }
+
+  .node-label {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.5rem;
+    color: var(--muted);
+    margin-top: 0.2rem;
+    letter-spacing: 0.05em;
+  }
+
+  .node-1 { top: -30px; left: 50%; transform: translateX(-50%); }
+  .node-2 { right: -30px; top: 50%; transform: translateY(-50%); }
+  .node-3 { bottom: -30px; left: 50%; transform: translateX(-50%); }
+  .node-4 { left: -30px; top: 50%; transform: translateY(-50%); }
+
+  /* PRICING */
+  .pricing-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1.5rem;
+    margin-top: 3rem;
+  }
+
+  .price-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 2.5rem;
+    position: relative;
+    transition: all 0.3s;
+  }
+
+  .price-card:hover {
+    border-color: rgba(0,229,255,0.3);
+    transform: translateY(-4px);
+    box-shadow: 0 20px 60px rgba(0,0,0,0.4);
+  }
+
+  .price-card.featured {
+    border-color: var(--accent);
+    background: linear-gradient(135deg, #0e1a24 0%, #0a1520 100%);
+  }
+
+  .price-card.featured::before {
+    content: 'MOST POPULAR';
+    position: absolute;
+    top: -1px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--accent);
+    color: #000;
+    font-size: 0.65rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    padding: 0.3rem 1rem;
+    border-radius: 0 0 6px 6px;
+    font-family: 'Space Mono', monospace;
+  }
+
+  .price-tier {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.72rem;
+    color: var(--muted);
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    margin-bottom: 1.5rem;
+  }
+
+  .price-amount {
+    font-family: 'Syne', sans-serif;
+    font-size: 3rem;
+    font-weight: 800;
+    letter-spacing: -0.04em;
+    line-height: 1;
+    margin-bottom: 0.3rem;
+  }
+
+  .price-amount span {
+    font-size: 1.2rem;
+    color: var(--muted);
+    font-weight: 400;
+  }
+
+  .price-install {
+    font-size: 0.82rem;
+    color: var(--muted);
+    margin-bottom: 2rem;
+    padding-bottom: 2rem;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .price-features {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0.8rem;
+    margin-bottom: 2rem;
+  }
+
+  .price-features li {
+    font-size: 0.88rem;
+    color: var(--muted);
+    display: flex;
+    align-items: center;
+    gap: 0.7rem;
+  }
+
+  .price-features li::before {
+    content: '✓';
+    color: var(--accent3);
+    font-weight: 700;
+    font-size: 0.8rem;
+  }
+
+  .price-btn {
+    width: 100%;
+    padding: 0.9rem;
+    border-radius: 4px;
+    font-weight: 700;
+    font-size: 0.88rem;
+    letter-spacing: 0.05em;
+    border: 1px solid var(--border);
+    background: transparent;
+    color: var(--text);
+    cursor: pointer;
+    transition: all 0.2s;
+    text-align: center;
+    display: block;
+    text-decoration: none;
+  }
+
+  .price-btn:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+  }
+
+  .price-btn.featured-btn {
+    background: var(--accent);
+    color: #000;
+    border-color: var(--accent);
+  }
+
+  .price-btn.featured-btn:hover {
+    box-shadow: var(--glow);
+  }
+
+  /* HOW IT WORKS */
+  .steps {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 0;
+    background: var(--border);
+    border: 1px solid var(--border);
+    margin-top: 3rem;
+  }
+
+  .step {
+    background: var(--card);
+    padding: 2.5rem 2rem;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .step-num {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.7rem;
+    color: var(--muted);
+    letter-spacing: 0.15em;
+    margin-bottom: 1.2rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .step-num::before {
+    content: '';
+    width: 20px;
+    height: 1px;
+    background: var(--border);
+  }
+
+  .step-icon { font-size: 1.8rem; margin-bottom: 1rem; }
+
+  .step h4 {
+    font-family: 'Syne', sans-serif;
+    font-weight: 700;
+    font-size: 1rem;
+    margin-bottom: 0.5rem;
+    letter-spacing: -0.01em;
+  }
+
+  .step p {
+    font-size: 0.85rem;
+    color: var(--muted);
+    line-height: 1.6;
+  }
+
+  /* TESTIMONIALS */
+  .testimonials-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 1.5rem;
+    margin-top: 3rem;
+  }
+
+  .testimonial {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 2rem;
+    transition: all 0.3s;
+  }
+
+  .testimonial:hover {
+    border-color: rgba(0,229,255,0.2);
+    transform: translateY(-2px);
+  }
+
+  .testimonial-quote {
+    font-size: 0.95rem;
+    line-height: 1.7;
+    color: var(--text);
+    margin-bottom: 1.5rem;
+    font-style: italic;
+  }
+
+  .testimonial-author {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+  }
+
+  .author-avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--accent), var(--accent2));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 1rem;
+    color: #000;
+  }
+
+  .author-name {
+    font-weight: 600;
+    font-size: 0.9rem;
+  }
+
+  .author-loc {
+    font-size: 0.78rem;
+    color: var(--muted);
+  }
+
+  /* BETA BANNER */
+  .beta-banner {
+    background: linear-gradient(135deg, rgba(0,229,255,0.08) 0%, rgba(255,107,53,0.05) 100%);
+    border: 1px solid rgba(0,229,255,0.2);
+    border-radius: 12px;
+    padding: 4rem;
+    text-align: center;
+    margin: 0 5% 7rem;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .beta-banner::before {
+    content: 'BETA';
+    position: absolute;
+    top: -20px;
+    right: 5%;
+    font-family: 'Syne', sans-serif;
+    font-size: 8rem;
+    font-weight: 800;
+    color: rgba(0,229,255,0.04);
+    letter-spacing: -0.05em;
+    pointer-events: none;
+  }
+
+  .beta-banner h2 {
+    font-family: 'Syne', sans-serif;
+    font-size: 2.2rem;
+    font-weight: 800;
+    letter-spacing: -0.03em;
+    margin-bottom: 1rem;
+  }
+
+  .beta-banner p {
+    color: var(--muted);
+    font-size: 1rem;
+    max-width: 500px;
+    margin: 0 auto 2.5rem;
+    line-height: 1.7;
+  }
+
+  .beta-perks {
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+    flex-wrap: wrap;
+    margin-bottom: 2.5rem;
+  }
+
+  .perk {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.88rem;
+    color: var(--text);
+  }
+
+  .perk-icon { color: var(--accent3); }
+
+  /* FOOTER */
+  footer {
+    border-top: 1px solid var(--border);
+    padding: 3rem 5%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: gap;
+    gap: 1rem;
+  }
+
+  .footer-logo {
+    font-family: 'Syne', sans-serif;
+    font-weight: 800;
+    font-size: 1.1rem;
+  }
+
+  .footer-logo span { color: var(--accent); }
+
+  .footer-text {
+    font-size: 0.82rem;
+    color: var(--muted);
+  }
+
+  .footer-tech {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.68rem;
+    color: var(--muted);
+    letter-spacing: 0.08em;
+  }
+
+  /* ANIMATIONS */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .reveal {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: all 0.7s ease;
+  }
+
+  .reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* TICKER */
+  .ticker {
+    background: var(--accent);
+    color: #000;
+    padding: 0.5rem 0;
+    overflow: hidden;
+    white-space: nowrap;
+  }
+
+  .ticker-inner {
+    display: inline-flex;
+    animation: ticker 25s linear infinite;
+    gap: 0;
+  }
+
+  .ticker-item {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    padding: 0 2rem;
+  }
+
+  .ticker-sep {
+    color: rgba(0,0,0,0.3);
+  }
+
+  @keyframes ticker {
+    from { transform: translateX(0); }
+    to { transform: translateX(-50%); }
+  }
+
+  @media (max-width: 768px) {
+    .nav-links { display: none; }
+    .features-layout { grid-template-columns: 1fr; }
+    .tech-visual { display: none; }
+    .stats-bar { flex-direction: column; }
+    .stat { border-right: none; border-bottom: 1px solid var(--border); }
+    .hero h1 { font-size: 2.8rem; }
+    footer { flex-direction: column; text-align: center; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="logo">Ultra<span>Homes</span></div>
+  <ul class="nav-links">
+    <li><a href="#rooms">Features</a></li>
+    <li><a href="#how">How It Works</a></li>
+    <li><a href="#pricing">Pricing</a></li>
+    <li><a href="#beta">Beta Program</a></li>
+  </ul>
+  <a href="#beta" class="nav-cta">JOIN BETA →</a>
+</nav>
+
+<!-- TICKER -->
+<div class="ticker">
+  <div class="ticker-inner">
+    <span class="ticker-item">MOTION SENSING <span class="ticker-sep">◆</span></span>
+    <span class="ticker-item">TEMPERATURE CONTROL <span class="ticker-sep">◆</span></span>
+    <span class="ticker-item">SMOKE DETECTION <span class="ticker-sep">◆</span></span>
+    <span class="ticker-item">VOICE AI CONTROL <span class="ticker-sep">◆</span></span>
+    <span class="ticker-item">WHATSAPP ALERTS <span class="ticker-sep">◆</span></span>
+    <span class="ticker-item">GOOGLE ASSISTANT <span class="ticker-sep">◆</span></span>
+    <span class="ticker-item">MADE IN INDIA <span class="ticker-sep">◆</span></span>
+    <span class="ticker-item">MOTION SENSING <span class="ticker-sep">◆</span></span>
+    <span class="ticker-item">TEMPERATURE CONTROL <span class="ticker-sep">◆</span></span>
+    <span class="ticker-item">SMOKE DETECTION <span class="ticker-sep">◆</span></span>
+    <span class="ticker-item">VOICE AI CONTROL <span class="ticker-sep">◆</span></span>
+    <span class="ticker-item">WHATSAPP ALERTS <span class="ticker-sep">◆</span></span>
+    <span class="ticker-item">GOOGLE ASSISTANT <span class="ticker-sep">◆</span></span>
+    <span class="ticker-item">MADE IN INDIA <span class="ticker-sep">◆</span></span>
+  </div>
+</div>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-blob"></div>
+  <div class="hero-blob2"></div>
+
+  <div class="hero-badge">
+    <div class="badge-dot"></div>
+    NOW ACCEPTING BETA APPLICATIONS
+  </div>
+
+  <h1>
+    Your home.<br>
+    <span class="line2">Finally</span> <span class="accent">intelligent.</span>
+  </h1>
+
+  <p class="hero-sub">
+    Affordable smart home automation built for Indian homes. 
+    Motion sensing, temperature control, smoke detection and voice AI — 
+    all working together seamlessly.
+  </p>
+
+  <div class="hero-actions">
+    <a href="#beta" class="btn-primary">Get Beta Access →</a>
+    <a href="#rooms" class="btn-secondary">See Features</a>
+  </div>
+</section>
+
+<!-- STATS -->
+<div class="stats-bar">
+  <div class="stat reveal">
+    <span class="stat-num">4</span>
+    <span class="stat-label">Smart Rooms</span>
+  </div>
+  <div class="stat reveal">
+    <span class="stat-num">16</span>
+    <span class="stat-label">Controlled Switches</span>
+  </div>
+  <div class="stat reveal">
+    <span class="stat-num">₹299</span>
+    <span class="stat-label">Starting Per Month</span>
+  </div>
+  <div class="stat reveal">
+    <span class="stat-num">0</span>
+    <span class="stat-label">Laptops Needed</span>
+  </div>
+</div>
+
+<!-- ROOMS -->
+<section class="section" id="rooms">
+  <div class="section-tag">Smart Rooms</div>
+  <h2 class="section-title reveal">Every room,<br>always aware.</h2>
+  <p class="section-desc reveal">Each room has its own dedicated smart controller with sensors tailored to how that space is actually used.</p>
+
+  <div class="rooms-grid">
+    <div class="room-card reveal" style="--room-color: #00e5ff;">
+      <span class="room-icon">🚪</span>
+      <div class="room-name">Hall 1</div>
+      <div class="room-sensor">PIR Motion Sensor</div>
+      <p class="room-desc">Walk through the entrance and lights turn on instantly. No switches, no fumbling in the dark. Motion detected = home responds.</p>
+      <div class="room-chip"><div class="chip-dot"></div>Auto Lighting</div>
+    </div>
+
+    <div class="room-card reveal" style="--room-color: #ff6b35;">
+      <span class="room-icon">🌡️</span>
+      <div class="room-name">Hall 2</div>
+      <div class="room-sensor">DHT22 Temp & Humidity</div>
+      <p class="room-desc">Temperature above 35°C? AC turns on automatically. Drops below threshold? It switches off. Real comfort, zero effort.</p>
+      <div class="room-chip"><div class="chip-dot"></div>AC Auto Control</div>
+    </div>
+
+    <div class="room-card reveal" style="--room-color: #ff4444;">
+      <span class="room-icon">🔥</span>
+      <div class="room-name">Kitchen</div>
+      <div class="room-sensor">Smoke Detection Sensor</div>
+      <p class="room-desc">Smoke detected — all lights switch off immediately and a WhatsApp alert fires to your phone within seconds. Safety first.</p>
+      <div class="room-chip"><div class="chip-dot"></div>WhatsApp Alerts</div>
+    </div>
+
+    <div class="room-card reveal" style="--room-color: #7fff6e;">
+      <span class="room-icon">🛏️</span>
+      <div class="room-name">Bedroom</div>
+      <div class="room-sensor">Ultrasonic Proximity</div>
+      <p class="room-desc">Object detected within 30–40cm of your bedside — light turns on softly. Perfect for midnight water trips without blinding yourself.</p>
+      <div class="room-chip"><div class="chip-dot"></div>Proximity Trigger</div>
+    </div>
+  </div>
+</section>
+
+<!-- FEATURES -->
+<section class="section" id="how" style="background: rgba(14,17,23,0.8);">
+  <div class="features-layout">
+    <div>
+      <div class="section-tag">Why UltraHomes</div>
+      <h2 class="section-title reveal">Built different.<br>Built for India.</h2>
+      <p class="section-desc reveal">Not a generic imported product. Designed specifically for Indian homes, Indian power infrastructure, and Indian budgets.</p>
+
+      <div class="feature-list">
+        <div class="feature-item reveal">
+          <div class="feature-icon">🔒</div>
+          <div class="feature-content">
+            <h4>100% Local Control</h4>
+            <p>Everything runs on your home network. No data leaves your house. No monthly cloud dependency to keep lights working.</p>
+          </div>
+        </div>
+        <div class="feature-item reveal">
+          <div class="feature-icon">🎙️</div>
+          <div class="feature-content">
+            <h4>Google Assistant Voice Control</h4>
+            <p>"Hey Google, turn on bedroom light" — it works. Full voice integration without paying for expensive smart bulbs.</p>
+          </div>
+        </div>
+        <div class="feature-item reveal">
+          <div class="feature-icon">📱</div>
+          <div class="feature-content">
+            <h4>Control from Anywhere</h4>
+            <p>Remote access via secure tunnel. Control your home from office, from another city, from anywhere with internet.</p>
+          </div>
+        </div>
+        <div class="feature-item reveal">
+          <div class="feature-icon">⚡</div>
+          <div class="feature-content">
+            <h4>Works with Existing Wiring</h4>
+            <p>No need to replace switches or rewire your home. UltraHomes installs alongside your existing electrical setup.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="tech-visual reveal">
+      <div class="hub-diagram">
+        <div class="orbit"></div>
+        <div class="hub-center">
+          <div style="font-size:1.5rem">🏠</div>
+          <div class="hub-center-label">RASPBERRY<br>PI HUB</div>
+        </div>
+        <div class="node node-1"><span>💡</span><div class="node-label">HALL 1</div></div>
+        <div class="node node-2"><span>🌡️</span><div class="node-label">HALL 2</div></div>
+        <div class="node node-3"><span>🔥</span><div class="node-label">KITCHEN</div></div>
+        <div class="node node-4"><span>🛏️</span><div class="node-label">BEDROOM</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section class="section">
+  <div class="section-tag">Process</div>
+  <h2 class="section-title reveal">From zero to<br>smart in 3 steps.</h2>
+
+  <div class="steps">
+    <div class="step reveal">
+      <div class="step-num">01</div>
+      <div class="step-icon">📋</div>
+      <h4>Book a Free Consultation</h4>
+      <p>Tell us about your home layout. We'll design the right setup for your specific needs and budget.</p>
+    </div>
+    <div class="step reveal">
+      <div class="step-num">02</div>
+      <div class="step-icon">🔧</div>
+      <h4>We Install Everything</h4>
+      <p>Our team handles all wiring, device setup, WiFi configuration and app connection. You just watch.</p>
+    </div>
+    <div class="step reveal">
+      <div class="step-num">03</div>
+      <div class="step-icon">🎉</div>
+      <h4>Start Living Smarter</h4>
+      <p>Same day activation. Control lights, AC, security alerts from your phone or just say the word.</p>
+    </div>
+    <div class="step reveal">
+      <div class="step-num">04</div>
+      <div class="step-icon">🛡️</div>
+      <h4>Ongoing Support</h4>
+      <p>Monthly subscription includes remote monitoring, updates, and priority WhatsApp support whenever you need it.</p>
+    </div>
+  </div>
+</section>
+
+<!-- PRICING -->
+<section class="section" id="pricing" style="background: rgba(14,17,23,0.8);">
+  <div class="section-tag">Pricing</div>
+  <h2 class="section-title reveal">Honest pricing.<br>No surprises.</h2>
+  <p class="section-desc reveal">One-time installation + small monthly subscription. No hidden fees, no annual contracts.</p>
+
+  <div class="pricing-grid">
+    <div class="price-card reveal">
+      <div class="price-tier">Starter</div>
+      <div class="price-amount">₹299<span>/mo</span></div>
+      <div class="price-install">+ ₹2,500 one-time installation</div>
+      <ul class="price-features">
+        <li>1 Room Coverage</li>
+        <li>4 Smart Switches</li>
+        <li>1 Sensor (PIR / Smoke)</li>
+        <li>App Control</li>
+        <li>WhatsApp Alerts</li>
+        <li>Email Support</li>
+      </ul>
+      <a href="#beta" class="price-btn">Get Started</a>
+    </div>
+
+    <div class="price-card featured reveal">
+      <div class="price-tier">Home</div>
+      <div class="price-amount">₹599<span>/mo</span></div>
+      <div class="price-install">+ ₹15,000 one-time installation</div>
+      <ul class="price-features">
+        <li>4 Room Coverage</li>
+        <li>16 Smart Switches</li>
+        <li>4 Sensors (Full Suite)</li>
+        <li>Google Assistant Voice</li>
+        <li>Temperature Auto-Control</li>
+        <li>Remote Access</li>
+        <li>WhatsApp Support</li>
+      </ul>
+      <a href="#beta" class="price-btn featured-btn">Get Started</a>
+    </div>
+
+    <div class="price-card reveal">
+      <div class="price-tier">Pro + AI</div>
+      <div class="price-amount">₹999<span>/mo</span></div>
+      <div class="price-install">+ ₹30,000 one-time installation</div>
+      <ul class="price-features">
+        <li>Full Home Coverage</li>
+        <li>AI Voice Assistant</li>
+        <li>ChatGPT Integration</li>
+        <li>Custom Automations</li>
+        <li>Priority Support</li>
+        <li>Monthly Health Check</li>
+        <li>Free Hardware Upgrades</li>
+      </ul>
+      <a href="#beta" class="price-btn">Get Started</a>
+    </div>
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section class="section">
+  <div class="section-tag">Early Users</div>
+  <h2 class="section-title reveal">Real homes.<br>Real results.</h2>
+
+  <div class="testimonials-grid">
+    <div class="testimonial reveal">
+      <p class="testimonial-quote">"Never thought smart home could be this affordable. The smoke alarm WhatsApp message saved us from a kitchen disaster last month."</p>
+      <div class="testimonial-author">
+        <div class="author-avatar">R</div>
+        <div>
+          <div class="author-name">Rahul M.</div>
+          <div class="author-loc">Pune, Maharashtra</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="testimonial reveal">
+      <p class="testimonial-quote">"AC auto-control alone saves me ₹800 a month on electricity. The subscription pays for itself. Wish I'd done this sooner."</p>
+      <div class="testimonial-author">
+        <div class="author-avatar">P</div>
+        <div>
+          <div class="author-name">Priya S.</div>
+          <div class="author-loc">Mumbai, Maharashtra</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="testimonial reveal">
+      <p class="testimonial-quote">"Bedroom proximity light is my favorite feature. My wife was skeptical but now she's the biggest fan. Setup was done in 2 hours."</p>
+      <div class="testimonial-author">
+        <div class="author-avatar">A</div>
+        <div>
+          <div class="author-name">Amit K.</div>
+          <div class="author-loc">Navi Mumbai, Maharashtra</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- BETA BANNER -->
+<div class="beta-banner reveal" id="beta">
+  <div class="section-tag" style="justify-content:center">Beta Program</div>
+  <h2>Get it installed at<br>hardware cost only.</h2>
+  <p>We're looking for 5 beta homes in Panvel & Navi Mumbai. You get a fully working smart home at our cost price. We get honest feedback and a video testimonial.</p>
+
+  <div class="beta-perks">
+    <div class="perk"><span class="perk-icon">✓</span> Pay only hardware cost (~₹800/room)</div>
+    <div class="perk"><span class="perk-icon">✓</span> Free installation & setup</div>
+    <div class="perk"><span class="perk-icon">✓</span> 3 months free subscription</div>
+    <div class="perk"><span class="perk-icon">✓</span> Priority support forever</div>
+  </div>
+
+  <a href="https://wa.me/91XXXXXXXXXX?text=Hi!%20I%20want%20to%20apply%20for%20UltraHomes%20beta" class="btn-primary" style="display:inline-flex">
+    Apply on WhatsApp →
+  </a>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo">Ultra<span>Homes</span></div>
+  <div class="footer-text">© 2025 UltraHomes. Made in India 🇮🇳</div>
+  <div class="footer-tech">ESP32 · MQTT · Home Assistant · Raspberry Pi</div>
+</footer>
+
+<script>
+  // Scroll reveal
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry, i) => {
+      if (entry.isIntersecting) {
+        setTimeout(() => {
+          entry.target.classList.add('visible');
+        }, 100);
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.1 });
+
+  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+  // Stagger children
+  document.querySelectorAll('.rooms-grid, .pricing-grid, .steps, .testimonials-grid').forEach(grid => {
+    grid.querySelectorAll('.reveal').forEach((child, i) => {
+      child.style.transitionDelay = `${i * 0.1}s`;
+    });
+  });
+</script>
+</body>
+</html>
